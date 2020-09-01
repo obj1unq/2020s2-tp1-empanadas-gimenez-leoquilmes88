@@ -12,6 +12,10 @@ object galvan {
 	method sueldo() {
 		return sueldo
 	}
+	
+	method cobrar(){
+		//no hace nada
+	}
 
 }
 
@@ -19,19 +23,34 @@ object baigorria {
 
 	var ventas = 0
 	var sueldo = 0
+	var totalCobrado = 0
 
 	method vender(cantidad) {
 		ventas += cantidad
-		self.calcularSueldo()
+		self.sueldo(ventas * 15)
+	}
+	
+	method reiniciarVentas(){
+		ventas = 0
 	}
 
-	method calcularSueldo() {
-		sueldo = 15 * ventas
+	method sueldo(cantidad) {
+		sueldo = cantidad
 	}
 
 	// getter
 	method sueldo() {
 		return sueldo
+	}
+	
+	method totalCobrado(){
+		return totalCobrado
+	}
+	
+	method cobrar(){
+		totalCobrado += self.sueldo()
+		self.sueldo(0)
+		self.reiniciarVentas()
 	}
 
 }
@@ -47,6 +66,7 @@ object gimenez {
 
 	method pagarSueldo(empleado) {
 		fondo -= empleado.sueldo()
+		empleado.cobrar()
 	}
 
 }
