@@ -2,6 +2,8 @@
 object galvan {
 
 	var sueldo = 15000
+	var deuda = 0
+	var dinero = 0
 
 	// setter
 	method sueldo(cantidad) {
@@ -14,7 +16,38 @@ object galvan {
 	}
 	
 	method cobrar(){
-		//no hace nada
+		const saldo = sueldo - deuda
+		self.pagarDeudas()
+		self.guardarDinero(saldo)
+	}
+	
+	method pagarDeudas(){
+		deuda = 0.max(deuda - sueldo.abs())
+	}
+	
+	method guardarDinero(cantidad){
+		dinero = 0.max(cantidad)
+	}
+	
+	method gastar(unaCantidad){
+		//solucion con if fea
+//		if (unaCantidad > dinero){
+//			deuda += unaCantidad - dinero
+//			dinero = 0
+//		}else{
+//			dinero -= unaCantidad
+//		}
+//con logica de "pagos"
+		deuda = 0.min(dinero - deuda - unaCantidad).abs()
+		dinero = 0.max(dinero - unaCantidad)
+	}
+	
+	method deuda(){
+		return deuda
+	}
+	
+	method dinero(){
+		return dinero
 	}
 
 }
@@ -27,15 +60,15 @@ object baigorria {
 
 	method vender(cantidad) {
 		ventas += cantidad
-		self.sueldo(ventas * 15)
+		self.sueldo(ventas)
 	}
 	
 	method reiniciarVentas(){
 		ventas = 0
 	}
 
-	method sueldo(cantidad) {
-		sueldo = cantidad
+	method sueldo(vendidas) {
+		sueldo = vendidas * 15
 	}
 
 	// getter
